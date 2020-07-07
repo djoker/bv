@@ -25,4 +25,10 @@ Pontos desejáveis:
 
 O banco de dados foi implementado em um container PostgreSQL. São apenas 4 tabelas com controle de atualização simples. Sua implementação pode ser vista no arquivo **model.py**
 
-## Execução
+## Documentação da API
+
+A documentação da API se encontra em no arquivo swagger.yaml em bvapi/bvapi/
+
+## Testes
+
+Não concluido
