@@ -1,0 +1,46 @@
+from flask_restful import Api, Resource
+from flask import request
+import bvapi.model as m
+from bvapi import app, db
+
+api = Api(app)
+
+class Client(Resource):
+    def get(self, pid=0):
+        ret = []
+        if pid == 0:
+            rClients = m.Client.query.all()
+        else:
+            rClients = m.Client.query.filter_by(id=pid).all()
+        for reg in rClients:
+            # item ={}
+            # item["id"] = reg.id
+            # item["name"] = reg.name
+            # item["email"] = reg.email
+            # item["address"] = reg.address
+            # print(reg.todict)
+            ret.append(reg.todict)
+        print(ret)
+        rcode = 200 if len(ret) > 0 else 404
+        
+        return ret, rcode
+
+    def post(self):
+        reg = m.Client()
+        reg.name = request.form['name']
+        reg.address = request.form['address']
+        reg.email = request.form['email']
+        print(reg.todict)
+        try:
+            db.session.add(reg)
+            db.session.commit()
+            return {"msg":"Cliente incluido"}, 200
+        except err:
+            return {"msg":"Erro:{e}".format(e=err)}
+        
+
+
+api.add_resource(Client,"/api/client/", "/api/client/<pid>")
+
+if __name__ == '__main__':
+    app.run()

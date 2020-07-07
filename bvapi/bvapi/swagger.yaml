@@ -1,0 +1,392 @@
+swagger: "2.0"
+info:
+  description: Description of the services are availible from BV API
+  version: "1.0.0"
+  title: BVAPI
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /client/:
+    post:
+      operationId: Client.post
+      consumes:
+      - "application/json"
+      produces:
+        - "application/json"      
+      tags:
+        - clients
+      summary:  The Client Api (POST)
+      description: Includes a new client
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Error message"
+  /client/{id}:
+    get:
+      operationId: Client.get
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      produces:
+        - "application/json"
+      tags:
+        - clients
+      summary: The Client Api (GET)
+      description: Read a specific client
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Client"
+        "404":
+          description: "No clients "
+    put:
+      operationId: Client.put
+      tags:
+        - clients
+      summary:  The Client Api (PUT)
+      description: Alter data from a specific client
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Error message"
+    delete:
+      operationId: Client.delete
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      tags:
+        - clients
+      summary:  The Client Api (DELETE)
+      description: Exclude a client
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Error message"
+  /product/:
+    post:
+      operationId: Product.post
+      tags:
+        - products
+      summary: The Product API (POST)
+      description: Includes a new product
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Error message"
+
+  /product/{id}:
+    get:
+      operationId: Product.get
+      tags:
+        - products
+      summary: The Product API (GET)
+      description: Read the list of products ou a specific one
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Product ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        "404":
+          description: "No products "
+    put:
+      operationId: Product.put
+      tags:
+        - products
+      summary: The Product API (PUT)
+      description: Alter the price of specific product
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Product ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Error message"
+    delete:
+      operationId: Product.delete
+      tags:
+        - products
+      summary: The Product API (DELETE)
+      description: Exclude a specific product
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Product ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Error message"
+  /order/:
+    post:
+      operationId: Order.post
+      tags:
+        - orders
+      summary: The Order API (post)
+      description: Includes a new order 
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Order"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Error message"
+  /order/{id}:
+    get:
+      operationId: Order.get
+      tags:
+        - orders
+      summary: The Order API (GET)
+      description: Return the list of orders of a client
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Order"
+        "404":
+          description: "No orders "
+    delete:
+      operationId: Order.delete
+      tags:
+        - orders
+        - order_items
+      summary: The Order API (DELETE)
+      description: Delete a  order
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "NRO Order"
+        required: true
+        type: "integer"
+        format: "int64"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "Error Message"
+  /item:
+    post:
+      operationId: Item.post
+      summary: The Item API (POST)
+      description: Include a new item in a order
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Order_item"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Error message"
+  /item/{id}:
+    get:
+      operationId: Item.get
+      summary: The Item API (GET)
+      description: Retriive the items of a order
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Order Nro."
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Order_item"
+        "404":
+          description: "No orders "
+    put:
+      operationId: Item.put
+      summary: The Item API (PUT)
+      description: Update a item
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Order_item"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "Error Message"
+    delete:
+      operationId: Item.delete
+      summary: The Item API (DELETE)
+      description: Exclude a item
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "Error Message"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      userid:
+        type: "string"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+  Client:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      address:
+        type: "string"
+  Product:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      product:
+        type: "string"  
+      price:
+        type: "number"
+  Order:
+    type: "object"
+    properties:
+      nro:
+        type: "integer"
+      client_id:
+        type: "integer"
+  Order_item:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      order_nro:
+        type: "integer"
+      product_id:
+        type: "integer"
+      amount:
+        type: "number"
+  ApiResponse:
+    type: "object"
+    properties:
+      msg:
+        type: "string"
